@@ -17,12 +17,21 @@
 
 .link {
   display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 20px;
   color: var(--text-inactive-color);
   text-decoration: none;
+  border-radius: 40px;
+  transition: 0.2s;
 }
 
 .link_active {
   color: var(--text-primary-color);
+}
+
+.link:hover {
+  box-shadow: 0 0 10px rgb(255 255 255 / 50%);
 }
 
 .link_position_last {
