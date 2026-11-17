@@ -2,7 +2,7 @@ import { BurgerIngredientUI } from '@ui';
 import { memo } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { addBun, addIngredient } from '@services/rootReducer';
+import { addBun, addIngredient } from '@services/burgerConstructor';
 import { useDispatch } from '@services/store';
 
 import type { TBurgerIngredientProps } from './type';

@@ -20,7 +20,8 @@ import { Preloader } from '@ui';
 import { useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
-import { fetchIngredients, checkAuthThunk } from '@services/rootReducer';
+import { checkAuthThunk } from '@services/auth';
+import { fetchIngredients } from '@services/ingredients';
 import { useDispatch, useSelector } from '@services/store';
 
 import type { AppContentProps } from './type';
@@ -92,9 +93,8 @@ const RouteComponent = (): React.JSX.Element => {
     <>
       <Routes location={background ?? location}>
         <Route path="/" element={<ConstructorPage />} />
-        <Route path="/feed" element={<Feed />}>
-          <Route path="/feed/:number" element={<OrderInfo />} />
-        </Route>
+        <Route path="/feed" element={<Feed />} />
+        <Route path="/feed/:number" element={<OrderInfo />} />
         <Route
           path="/login"
           element={
@@ -142,17 +142,26 @@ const RouteComponent = (): React.JSX.Element => {
               <ProfileOrders />
             </ProtectedRoute>
           }
-        >
-          <Route
-            path="/profile/orders/:number"
-            element={
-              <ProtectedRoute>
-                <OrderInfo />
-              </ProtectedRoute>
-            }
-          />
-        </Route>
-        <Route path="/ingredients/:id" element={<IngredientDetails />} />
+        />
+        <Route
+          path="/profile/orders/:number"
+          element={
+            <ProtectedRoute>
+              <OrderInfo />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/ingredients/:id"
+          element={
+            <div className={styles.detailPageWrap}>
+              <h1 className={`${styles.detailHeader} text text_type_main-large`}>
+                Детали ингредиента
+              </h1>
+              <IngredientDetails />
+            </div>
+          }
+        />
         <Route path="*" element={<NotFound404 />} />
       </Routes>
 
@@ -162,9 +171,9 @@ const RouteComponent = (): React.JSX.Element => {
             path="/feed/:number"
             element={
               <Modal
-                title="Информация о заказе"
+                title=""
                 onClose={() => {
-                  void navigate('/feed');
+                  void navigate(-1);
                 }}
               >
                 <OrderInfo />
@@ -175,9 +184,9 @@ const RouteComponent = (): React.JSX.Element => {
             path="/ingredients/:id"
             element={
               <Modal
-                title="Информация"
+                title="Детали ингредиента"
                 onClose={() => {
-                  void navigate('/');
+                  void navigate(-1);
                 }}
               >
                 <IngredientDetails />
@@ -188,9 +197,9 @@ const RouteComponent = (): React.JSX.Element => {
             path="/profile/orders/:number"
             element={
               <Modal
-                title="Информация"
+                title=""
                 onClose={() => {
-                  void navigate('/profile/orders');
+                  void navigate(-1);
                 }}
               >
                 <OrderInfo />

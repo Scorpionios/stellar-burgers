@@ -1,7 +1,7 @@
 import { ProfileUI } from '@ui-pages';
-import { type SyntheticEvent, useEffect, useState } from 'react';
+import { type SyntheticEvent, useState } from 'react';
 
-import { updateUserThunk } from '@services/rootReducer';
+import { updateUserThunk } from '@services/auth';
 import { useSelector, useDispatch } from '@services/store';
 
 export const Profile = (): React.JSX.Element => {
@@ -14,14 +14,6 @@ export const Profile = (): React.JSX.Element => {
     email: user?.email ?? '',
     password: '',
   });
-
-  useEffect(() => {
-    setFormValue((prevState) => ({
-      ...prevState,
-      name: user?.name ?? '',
-      email: user?.email ?? '',
-    }));
-  }, [user]);
 
   const isFormChanged =
     formValue.name !== user?.name ||
@@ -39,7 +31,15 @@ export const Profile = (): React.JSX.Element => {
       updateData.password = formValue.password;
     }
 
-    void dispatch(updateUserThunk(updateData));
+    void dispatch(updateUserThunk(updateData))
+      .unwrap()
+      .then(() => {
+        setFormValue({
+          name: updateData?.name ?? '',
+          email: updateData?.email ?? '',
+          password: '',
+        });
+      });
   };
 
   const handleCancel = (e: SyntheticEvent): void => {

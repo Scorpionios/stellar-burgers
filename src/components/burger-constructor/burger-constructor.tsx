@@ -1,21 +1,30 @@
 import { BurgerConstructorUI } from '@ui';
 import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { createOrder, resetOrder } from '@services/rootReducer';
+import { createOrder, resetOrder } from '@services/burgerConstructor';
 import { useDispatch, useSelector } from '@services/store';
 
 import type { TConstructorIngredient } from '@utils-types';
 
 export const BurgerConstructor = (): React.JSX.Element | null => {
   const constructorState = useSelector((state) => state.burgerConstructor);
-  const constructorItems = constructorState ?? { bun: null, ingredients: [] };
+  const constructorItems = constructorState || { bun: null, ingredients: [] };
   const orderRequest = useSelector((state) => state.burgerConstructor.orderRequest);
   const orderModalData = useSelector((state) => state.burgerConstructor.orderModalData);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const onOrderClick = (): void => {
     if (!constructorItems.bun || orderRequest) return;
+
+    if (!isAuthenticated) {
+      void navigate('/login');
+      return;
+    }
+
     const ingredients = [
       constructorItems.bun._id,
       ...constructorItems.ingredients.map((i) => i._id),

@@ -5,55 +5,63 @@ import {
   Logo,
 } from '@krgaa/react-developer-burger-ui-components';
 import { clsx } from 'clsx';
-import { Link, useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 import type { TAppHeaderUIProps } from './type';
 
 import styles from './app-header.module.css';
 
 export const AppHeaderUI = ({ userName }: TAppHeaderUIProps): React.JSX.Element => {
-  const pathname = useLocation();
+  const location = useLocation();
+
+  const getIconType = (path: string, end: boolean): 'primary' | 'secondary' => {
+    if (end) {
+      return location.pathname === path || location.pathname.startsWith('/ingredients/')
+        ? 'primary'
+        : 'secondary';
+    }
+    return location.pathname.startsWith(path) ? 'primary' : 'secondary';
+  };
 
   return (
     <header className={styles.header}>
       <nav className={`${styles.menu} p-4`}>
         <div className={styles.menu_part_left}>
-          <Link
+          <NavLink
             to="/"
+            end
             className={clsx(
               styles.link,
-              pathname.pathname === '/' && styles.link_active
+              (location.pathname === '/' ||
+                location.pathname.startsWith('/ingredients/')) &&
+                styles.link_active
             )}
           >
-            <BurgerIcon type={'primary'} />
+            <BurgerIcon type={getIconType('/', true)} />
             <p className="text text_type_main-default ml-2 mr-10">Конструктор</p>
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="/feed"
-            className={clsx(
-              styles.link,
-              pathname.pathname === '/feed' && styles.link_active
-            )}
+            className={({ isActive }) =>
+              clsx(styles.link, isActive && styles.link_active)
+            }
           >
-            <ListIcon type={'primary'} />
+            <ListIcon type={getIconType('/feed', false)} />
             <p className="text text_type_main-default ml-2">Лента заказов</p>
-          </Link>
+          </NavLink>
         </div>
-        <Link to="/" className={styles.logo}>
+        <NavLink to="/" end className={styles.logo}>
           <Logo className="" />
-        </Link>
-        <Link
+        </NavLink>
+        <NavLink
           to="/profile"
-          className={clsx(
-            styles.link,
-            pathname.pathname === '/profile' && styles.link_active
-          )}
+          className={({ isActive }) => clsx(styles.link, isActive && styles.link_active)}
         >
-          <ProfileIcon type={'primary'} />
+          <ProfileIcon type={getIconType('/profile', false)} />
           <p className="text text_type_main-default ml-2">
             {userName ?? 'Личный кабинет'}
           </p>
-        </Link>
+        </NavLink>
       </nav>
     </header>
   );

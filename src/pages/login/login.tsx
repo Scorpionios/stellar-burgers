@@ -1,8 +1,7 @@
 import { LoginUI } from '@ui-pages';
-import { type SyntheticEvent, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { type SyntheticEvent, useState } from 'react';
 
-import { loginUserThunk } from '@services/rootReducer';
+import { loginUserThunk } from '@services/auth';
 import { useDispatch, useSelector } from '@services/store';
 
 export const Login = (): React.JSX.Element => {
@@ -10,20 +9,12 @@ export const Login = (): React.JSX.Element => {
   const [password, setPassword] = useState('');
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const error = useSelector((state) => state.auth.error);
 
   const handleSubmit = (e: SyntheticEvent): void => {
     e.preventDefault();
     void dispatch(loginUserThunk({ email, password }));
   };
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      void navigate('/');
-    }
-  }, [isAuthenticated, navigate]);
 
   return (
     <LoginUI

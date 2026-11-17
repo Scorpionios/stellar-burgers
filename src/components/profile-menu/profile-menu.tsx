@@ -1,7 +1,7 @@
 import { ProfileMenuUI } from '@ui';
 import { useLocation } from 'react-router-dom';
 
-import { logoutUserThunk } from '@services/rootReducer';
+import { logoutUserThunk } from '@services/auth';
 import { useDispatch } from '@services/store';
 
 export const ProfileMenu = (): React.JSX.Element => {

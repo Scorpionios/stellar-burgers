@@ -2,7 +2,7 @@ import { Preloader, OrderInfoUI } from '@ui';
 import { useMemo, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { fetchOrderByNumber } from '@services/rootReducer';
+import { fetchOrderByNumber } from '@services/orders';
 import { useDispatch, useSelector } from '@services/store';
 
 import type { TIngredient } from '@utils-types';
@@ -19,7 +19,7 @@ export const OrderInfo = (): React.JSX.Element => {
     if (number) {
       void dispatch(fetchOrderByNumber(Number(number)));
     }
-  }, [number]);
+  }, [number, dispatch]);
 
   const orderInfo = useMemo(() => {
     if (!orderData || !ingredients.length) return null;
