@@ -1,26 +1,19 @@
 import { ProfileUI } from '@ui-pages';
-import { type SyntheticEvent, useEffect, useState } from 'react';
+import { type SyntheticEvent, useState } from 'react';
+
+import { updateUserThunk } from '@services/auth';
+import { useSelector, useDispatch } from '@services/store';
 
 export const Profile = (): React.JSX.Element => {
-  /** TODO: Взять переменную из стора */
-  const user = {
-    name: '',
-    email: '',
-  };
+  const user = useSelector((state) => state.auth.user);
+  const error = useSelector((state) => state.auth.error);
+  const dispatch = useDispatch();
 
   const [formValue, setFormValue] = useState({
-    name: user.name,
-    email: user.email,
+    name: user?.name ?? '',
+    email: user?.email ?? '',
     password: '',
   });
-
-  useEffect(() => {
-    setFormValue((prevState) => ({
-      ...prevState,
-      name: user?.name || '',
-      email: user?.email || '',
-    }));
-  }, [user]);
 
   const isFormChanged =
     formValue.name !== user?.name ||
@@ -29,13 +22,31 @@ export const Profile = (): React.JSX.Element => {
 
   const handleSubmit = (e: SyntheticEvent): void => {
     e.preventDefault();
+    const updateData: { name: string; email: string; password?: string } = {
+      name: formValue.name,
+      email: formValue.email,
+    };
+
+    if (formValue.password) {
+      updateData.password = formValue.password;
+    }
+
+    void dispatch(updateUserThunk(updateData))
+      .unwrap()
+      .then(() => {
+        setFormValue({
+          name: updateData?.name ?? '',
+          email: updateData?.email ?? '',
+          password: '',
+        });
+      });
   };
 
   const handleCancel = (e: SyntheticEvent): void => {
     e.preventDefault();
     setFormValue({
-      name: user.name,
-      email: user.email,
+      name: user?.name ?? '',
+      email: user?.email ?? '',
       password: '',
     });
   };
@@ -48,12 +59,15 @@ export const Profile = (): React.JSX.Element => {
   };
 
   return (
-    <ProfileUI
-      formValue={formValue}
-      isFormChanged={isFormChanged}
-      handleCancel={handleCancel}
-      handleSubmit={handleSubmit}
-      handleInputChange={handleInputChange}
-    />
+    <>
+      <ProfileUI
+        formValue={formValue}
+        isFormChanged={isFormChanged}
+        updateUserError={error?.message}
+        handleCancel={handleCancel}
+        handleSubmit={handleSubmit}
+        handleInputChange={handleInputChange}
+      />
+    </>
   );
 };

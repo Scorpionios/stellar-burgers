@@ -1,5 +1,7 @@
 import { FeedInfoUI } from '@ui';
 
+import { useSelector } from '@services/store';
+
 import type { TOrder } from '@utils-types';
 
 const getOrders = (orders: TOrder[], status: string): number[] =>
@@ -10,13 +12,14 @@ const getOrders = (orders: TOrder[], status: string): number[] =>
 
 export const FeedInfo = (): React.JSX.Element => {
   const feed = {
-    orders: [],
-    total: 0,
-    totalToday: 0,
-    isLoading: false,
-    error: null,
+    orders: useSelector((state) => state.feeds.orders),
+    total: useSelector((state) => state.feeds.total),
+    totalToday: useSelector((state) => state.feeds.totalToday),
+    isLoading: useSelector((state) => state.feeds.isLoading),
+    error: useSelector((state) => state.feeds.error),
   };
-  const orders: TOrder[] = [];
+
+  const orders: TOrder[] = useSelector((state) => state.feeds.orders);
 
   const readyOrders = getOrders(orders, 'done');
 
