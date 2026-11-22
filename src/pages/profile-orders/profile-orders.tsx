@@ -1,10 +1,18 @@
 import { ProfileOrdersUI } from '@ui-pages';
+import { useEffect } from 'react';
+
+import { fetchUserOrders } from '@services/orders';
+import { useDispatch, useSelector } from '@services/store';
 
 import type { TOrder } from '@utils-types';
 
 export const ProfileOrders = (): React.JSX.Element => {
-  /** TODO: взять переменную из стора */
-  const orders: TOrder[] = [];
+  const dispatch = useDispatch();
+  const orders: TOrder[] = useSelector((state) => state.orders.orders);
+
+  useEffect(() => {
+    void dispatch(fetchUserOrders());
+  }, [dispatch]);
 
   return <ProfileOrdersUI orders={orders} />;
 };
