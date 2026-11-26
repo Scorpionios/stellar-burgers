@@ -1,8 +1,8 @@
+import { fetchFeed } from '@/services/slices/feeds';
 import { Preloader } from '@ui';
 import { FeedUI } from '@ui-pages';
 import { useEffect } from 'react';
 
-import { fetchFeed } from '@services/feeds';
 import { useDispatch, useSelector } from '@services/store';
 
 import type { TOrder } from '@utils-types';

@@ -1,8 +1,8 @@
+import { fetchOrderByNumber } from '@/services/slices/orders';
 import { Preloader, OrderInfoUI } from '@ui';
 import { useMemo, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { fetchOrderByNumber } from '@services/orders';
 import { useDispatch, useSelector } from '@services/store';
 
 import type { TIngredient } from '@utils-types';

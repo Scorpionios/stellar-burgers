@@ -1,3 +1,5 @@
+import { checkAuthThunk } from '@/services/slices/auth';
+import { fetchIngredients } from '@/services/slices/ingredients';
 import {
   AppHeader,
   Modal,
@@ -20,8 +22,6 @@ import { Preloader } from '@ui';
 import { useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
-import { checkAuthThunk } from '@services/auth';
-import { fetchIngredients } from '@services/ingredients';
 import { useDispatch, useSelector } from '@services/store';
 
 import type { AppContentProps } from './type';

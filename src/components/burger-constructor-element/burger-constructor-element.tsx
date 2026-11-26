@@ -1,7 +1,7 @@
+import { moveIngredient, removeIngredient } from '@/services/slices/burgerConstructor';
 import { BurgerConstructorElementUI } from '@ui';
 import { memo } from 'react';
 
-import { moveIngredient, removeIngredient } from '@services/burgerConstructor';
 import { useDispatch } from '@services/store';
 
 import type { BurgerConstructorElementProps } from './type';

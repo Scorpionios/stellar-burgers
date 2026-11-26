@@ -1,7 +1,7 @@
+import { registerUserThunk } from '@/services/slices/auth';
 import { RegisterUI } from '@ui-pages';
 import { type SyntheticEvent, useState } from 'react';
 
-import { registerUserThunk } from '@services/auth';
 import { useDispatch, useSelector } from '@services/store';
 
 export const Register = (): React.JSX.Element => {

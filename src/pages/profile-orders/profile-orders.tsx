@@ -1,7 +1,7 @@
+import { fetchUserOrders } from '@/services/slices/orders';
 import { ProfileOrdersUI } from '@ui-pages';
 import { useEffect } from 'react';
 
-import { fetchUserOrders } from '@services/orders';
 import { useDispatch, useSelector } from '@services/store';
 
 import type { TOrder } from '@utils-types';

@@ -1,7 +1,7 @@
+import { loginUserThunk } from '@/services/slices/auth';
 import { LoginUI } from '@ui-pages';
 import { type SyntheticEvent, useState } from 'react';
 
-import { loginUserThunk } from '@services/auth';
 import { useDispatch, useSelector } from '@services/store';
 
 export const Login = (): React.JSX.Element => {
