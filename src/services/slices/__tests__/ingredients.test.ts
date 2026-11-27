@@ -10,7 +10,6 @@ describe('тесты экшенов ингредиентов', () => {
     loading: false,
     error: null,
   };
-
   test('экшен, несуществующий в приложении', () => {
     const nextState = reducer(undefined, { type: 'UNKNOWN' });
     expect(nextState).toEqual(initialStateIngredients);
@@ -27,6 +26,11 @@ describe('тесты экшенов ингредиентов', () => {
   });
 
   test('fulfilled', () => {
+    const initialStateIngredients = {
+      items: [],
+      loading: true,
+      error: null,
+    };
     const ingredients = [
       {
         _id: '6acd6b8163765e371c0bd9eb',
@@ -51,11 +55,16 @@ describe('тесты экшенов ингредиентов', () => {
   });
 
   test('rejected', () => {
+    const initialStateIngredients = {
+      items: [],
+      loading: true,
+      error: null,
+    };
     const state = reducer(
       initialStateIngredients,
-      fetchIngredients.rejected(Error(), '1', undefined)
+      fetchIngredients.rejected(Error('загрузка не удалась'), '1', undefined)
     );
     expect(state.loading).toBe(false);
-    expect(state.error).toBeTruthy();
+    expect(state.error?.message).toEqual('загрузка не удалась');
   });
 });
