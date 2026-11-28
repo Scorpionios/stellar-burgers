@@ -6,11 +6,11 @@ test.describe('Проверка конструктора, модального �
       url: 'https://norma.ffapi.ru/api/**',
       update: false,
     });
-    await page.goto('/');
-    await expect(page.getByTestId('loading')).not.toBeVisible();
   });
 
   test('добавление булки, начинки и соуса в конструктор', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.getByTestId('loading')).not.toBeVisible();
     await page
       .locator('li')
       .filter({ hasText: 'Краторная булка N-200i' })
@@ -44,6 +44,8 @@ test.describe('Проверка конструктора, модального �
   });
 
   test('открытие и закрытие модального окна', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.getByTestId('loading')).not.toBeVisible();
     await page
       .locator('li')
       .filter({ hasText: 'Краторная булка N-200i' })
@@ -86,6 +88,8 @@ test.describe('Проверка конструктора, модального �
       localStorage.setItem('refreshToken', 'mock-refresh-token');
     });
 
+    await page.goto('/');
+    await expect(page.getByTestId('loading')).not.toBeVisible();
     await page
       .locator('li')
       .filter({ hasText: 'Краторная булка N-200i' })
