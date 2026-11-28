@@ -1,7 +1,7 @@
+import { updateUserThunk } from '@/services/slices/auth';
 import { ProfileUI } from '@ui-pages';
 import { type SyntheticEvent, useState } from 'react';
 
-import { updateUserThunk } from '@services/auth';
 import { useSelector, useDispatch } from '@services/store';
 
 export const Profile = (): React.JSX.Element => {
